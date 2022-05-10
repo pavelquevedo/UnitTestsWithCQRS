@@ -94,8 +94,8 @@ namespace MyLibNUnit.Test
 
 
         [Test]
-        [TestCase(2.2, 1.2)]
-        [TestCase(5.8, 3.2)]
+        [TestCase(2.2, 1.2)] //result 3.4
+        [TestCase(2.23, 2.24)] //result 4.47
         public void SumDecimal_InputTwoNumbers_GetCorrectValue(double decimal1, double decimal2)
         {
             //Arrange
@@ -105,7 +105,8 @@ namespace MyLibNUnit.Test
             var result = operation.SumDecimal(decimal1, decimal2);
 
             //Assert
-            Assert.AreEqual(9, result);
+            //With delta parameter we're allowing an interval between 3.4 and 5.4
+            Assert.AreEqual(3.4, result, 2);
         }
 
     }
