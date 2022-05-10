@@ -63,5 +63,13 @@ namespace MyLibNUnit.Test
             //Assert
             Assert.IsNotNull(client.ClientName);
         }
+
+        [Test]
+        public void DiscountEval_DefaultClient_ReturnsDiscountInterval()
+        {
+            int discount = client.Discount;
+
+            Assert.That(discount, Is.InRange(5, 24));
+        }
     }
 }

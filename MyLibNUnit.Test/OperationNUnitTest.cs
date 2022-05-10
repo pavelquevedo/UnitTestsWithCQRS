@@ -109,5 +109,28 @@ namespace MyLibNUnit.Test
             Assert.AreEqual(3.4, result, 2);
         }
 
+        [Test]
+        public void GetOddNumbersList_InputMinMaxInterval_ReturnsOddNumbersList()
+        {
+            //Arrange
+            Operation operation = new();
+            List<int> oddNumbersExpected = new() { 5, 7, 9 };
+
+            //Act
+            List<int> oddNumbersResult = operation.GetOddNumbersList(4, 10);
+
+            //Assert
+            Assert.That(oddNumbersResult, Is.EquivalentTo(oddNumbersExpected));
+            Assert.AreEqual(oddNumbersExpected, oddNumbersResult);
+            Assert.That(oddNumbersResult, Does.Contain(5));
+            Assert.Contains(5, oddNumbersResult);
+            Assert.That(oddNumbersResult, Is.Not.Empty);
+            Assert.That(oddNumbersResult.Count, Is.EqualTo(3));
+            Assert.That(oddNumbersResult, Has.No.Member(100));
+            Assert.That(oddNumbersResult, Is.Ordered.Ascending);
+            //To check if all the items in the collection are unique
+            Assert.That(oddNumbersResult, Is.Unique);
+        }
+
     }
 }
