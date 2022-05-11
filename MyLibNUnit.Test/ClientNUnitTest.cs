@@ -29,12 +29,18 @@ namespace MyLibNUnit.Test
             string completeName = client.CreateCompleteName("Pavel", "Quevedo");
 
             //Assert
-            Assert.That(completeName, Is.EqualTo("Pavel Quevedo"));
-            Assert.AreEqual(completeName, "Pavel Quevedo");
-            Assert.That(completeName, Does.Contain("Quevedo"));
-            Assert.That(completeName, Does.Contain("quevedo").IgnoreCase);
-            Assert.That(completeName, Does.StartWith("Pavel"));
-            Assert.That(completeName, Does.EndWith("Quevedo"));
+            //With Assert.Multiple we can execute a series of
+            //asserts and get the log of each one of them if they fail
+            Assert.Multiple(() =>
+            {
+                Assert.That(completeName, Is.EqualTo("Pavel Quevedo"));
+                Assert.AreEqual(completeName, "Pavel Quevedo");
+                Assert.That(completeName, Does.Contain("Quevedo"));
+                Assert.That(completeName, Does.Contain("quevedo").IgnoreCase);
+                Assert.That(completeName, Does.StartWith("Pavel"));
+                Assert.That(completeName, Does.EndWith("Quevedo"));
+            });
+            
         }
 
         [Test]
@@ -70,6 +76,31 @@ namespace MyLibNUnit.Test
             int discount = client.Discount;
 
             Assert.That(discount, Is.InRange(5, 24));
+        }
+
+        [Test]
+        public void CreateCompleteName_InputName_ReturnsNotNull()
+        {
+            client.CreateCompleteName("Pavel", "");
+            Assert.IsNotNull(client.ClientName);
+            Assert.IsFalse(string.IsNullOrEmpty(client.ClientName));
+        }
+
+        [Test]
+        public void ClientName_InputBlankName_ThrowsException()
+        {
+            var exceptionDetail = Assert.Throws<ArgumentException>(() => 
+                client.CreateCompleteName("", "Quevedo"));
+            Assert.AreEqual("FirstName is blank", exceptionDetail.Message);
+
+
+            Assert.That(() => client.CreateCompleteName("", "Quevedo"), 
+                Throws.ArgumentException.With.Message.EqualTo("FirstName is blank"));
+
+
+            Assert.Throws<ArgumentException>(() =>
+                client.CreateCompleteName("", "Quevedo"));
+            Assert.That(() => client.CreateCompleteName("", "Quevedo"), Throws.ArgumentException);
         }
     }
 }
