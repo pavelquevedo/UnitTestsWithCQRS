@@ -13,5 +13,6 @@ namespace MyLib.Interface
         bool LogBalanceAfterWithdrawal(int balance);
         string MessageReturnsString(string message);
         bool MessageReturnsStringReturnBool(string str, out string outputStr);
+        bool MessageWithReferenceObjectReturnBool(ref Client client);
     }
 }

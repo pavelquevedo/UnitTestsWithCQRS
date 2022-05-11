@@ -119,5 +119,26 @@ namespace MyLibNUnit.Test
             //Assert
             Assert.IsTrue(result);
         }
+
+        [Test]
+        public void BankAccountLoggerGeneral_LogMockingRefParam_ReturnsTrue()
+        {
+            //Arrange
+            var loggerGeneralMock = new Mock<ILoggerGeneral>();
+            Client client = new();
+            Client unusedClient = new();
+
+            loggerGeneralMock.Setup(m => m.MessageWithReferenceObjectReturnBool(ref client)).Returns(true);
+
+            //Act
+            var result = loggerGeneralMock.Object.MessageWithReferenceObjectReturnBool(ref client);
+            //In this case we're passing a different client object which is not configured in the mock setup,
+            //so the result should be false
+            var result2 = loggerGeneralMock.Object.MessageWithReferenceObjectReturnBool(ref unusedClient);
+
+            //Assert
+            Assert.IsTrue(result);
+            Assert.IsFalse(result2);
+        }
     }
 }

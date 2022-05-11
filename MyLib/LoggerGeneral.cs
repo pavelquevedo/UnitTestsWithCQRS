@@ -43,5 +43,10 @@ namespace MyLib
             outputStr = "Hello " + str;
             return true;
         }
+
+        public bool MessageWithReferenceObjectReturnBool(ref Client client)
+        {
+            return true;
+        }
     }
 }
