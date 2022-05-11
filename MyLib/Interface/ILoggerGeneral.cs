@@ -8,6 +8,8 @@ namespace MyLib.Interface
 {
     public interface ILoggerGeneral
     {
+        public int Priority { get; set; }
+        public string Type { get; set; }
         void Message(string message);
         bool LogDatabase(string message);
         bool LogBalanceAfterWithdrawal(int balance);

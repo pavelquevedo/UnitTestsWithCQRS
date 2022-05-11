@@ -9,6 +9,9 @@ namespace MyLib
 {
     public class LoggerFake : ILoggerGeneral
     {
+        public int Priority { get; set; }
+        public string Type { get; set; }
+
         public bool LogBalanceAfterWithdrawal(int balance)
         {
             return false;

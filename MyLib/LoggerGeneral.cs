@@ -9,6 +9,9 @@ namespace MyLib
 {
     public class LoggerGeneral : ILoggerGeneral
     {
+        public int Priority { get; set; }
+        public string Type { get; set; }
+
         public bool LogBalanceAfterWithdrawal(int balance)
         {
             if(balance >= 0)

@@ -140,5 +140,25 @@ namespace MyLibNUnit.Test
             Assert.IsTrue(result);
             Assert.IsFalse(result2);
         }
+
+        [Test]
+        public void BankAccountLoggerGeneral_LogMockingAndTypeProperties_ReturnsTrue()
+        {
+            //Arrange
+            var loggerGeneralMock = new Mock<ILoggerGeneral>();
+            //It is recommended to put this line after the declaration of the mock
+            loggerGeneralMock.SetupAllProperties();
+
+            loggerGeneralMock.Setup(u => u.Type).Returns("Warning");
+            //loggerGeneralMock.Setup(u => u.Priority).Returns(10);
+
+            //Act            
+            //If you want to change the properties this way, it's necessary to add the line after the mock declaration:
+            loggerGeneralMock.Object.Priority = 100;
+
+            //Assert
+            Assert.That(loggerGeneralMock.Object.Type, Is.EqualTo("Warning"));
+            Assert.That(loggerGeneralMock.Object.Priority, Is.EqualTo(10));
+        }
     }
 }
