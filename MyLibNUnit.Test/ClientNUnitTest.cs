@@ -102,5 +102,18 @@ namespace MyLibNUnit.Test
                 client.CreateCompleteName("", "Quevedo"));
             Assert.That(() => client.CreateCompleteName("", "Quevedo"), Throws.ArgumentException);
         }
+
+        [Test]
+        public void GetClientDetail_CreateClientWithMoreThan500TotalOrder_ReturnClientPremium()
+        {
+            //Arrange
+            client.OrderTotal = 700; 
+
+            //Act
+            var result = client.GetClientDetail();
+
+            //Assert
+            Assert.That(result, Is.TypeOf<ClientPremium>());
+        }
     }
 }

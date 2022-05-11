@@ -10,6 +10,7 @@ namespace MyLib
     {
         public string ClientName { get; set; }
         public int Discount { get; set; } = 10;
+        public int OrderTotal { get; set; }
         public string CreateCompleteName(string firstName, string lastName)
         {
             if (string.IsNullOrEmpty(firstName))
@@ -21,5 +22,23 @@ namespace MyLib
             ClientName = $"{firstName} {lastName}";
             return ClientName;
         }
+
+        public ClientType GetClientDetail()
+        {
+            if (OrderTotal < 500)
+            {
+                return new ClientBasic();
+            }
+            else
+            {
+                return new ClientPremium();
+            }
+        }
     }
+
+    public class ClientType { }
+
+    public class ClientBasic : ClientType { }
+
+    public class ClientPremium : ClientType { }
 }
