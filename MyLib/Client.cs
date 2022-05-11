@@ -6,11 +6,29 @@ using System.Threading.Tasks;
 
 namespace MyLib
 {
-    public class Client
+    public interface IClient
+    {
+        string ClientName { get; set; }
+        int Discount { get; set; }
+        int OrderTotal { get; set; }
+        bool IsPremium { get; set; }
+
+        ClientType GetClientDetail();
+        string CreateCompleteName(string firstName, string lastName);
+    }
+    public class Client : IClient
     {
         public string ClientName { get; set; }
-        public int Discount { get; set; } = 10;
+        public int Discount { get; set; }
         public int OrderTotal { get; set; }
+        public bool IsPremium { get; set; }
+
+        public Client()
+        {
+            Discount = 10;
+            IsPremium = false;
+        }
+
         public string CreateCompleteName(string firstName, string lastName)
         {
             if (string.IsNullOrEmpty(firstName))

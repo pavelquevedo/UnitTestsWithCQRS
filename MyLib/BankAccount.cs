@@ -29,11 +29,12 @@ namespace MyLib
         {
             if (amount <= Balance)
             {
+                _loggerGeneral.LogDatabase("Withdrawal amount: "+ amount);
                 Balance -= amount;
-                return true;
+                return _loggerGeneral.LogBalanceAfterWithdrawal(Balance);
             }
 
-            return false;
+            return _loggerGeneral.LogBalanceAfterWithdrawal(Balance - amount);
         }
 
         public int GetBalance()
