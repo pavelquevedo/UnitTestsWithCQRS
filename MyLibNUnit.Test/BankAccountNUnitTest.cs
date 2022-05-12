@@ -158,7 +158,27 @@ namespace MyLibNUnit.Test
 
             //Assert
             Assert.That(loggerGeneralMock.Object.Type, Is.EqualTo("Warning"));
-            Assert.That(loggerGeneralMock.Object.Priority, Is.EqualTo(10));
+            Assert.That(loggerGeneralMock.Object.Priority, Is.EqualTo(100));
+
+            //Callbacks
+            string tempText = "Pavel";
+            loggerGeneralMock.Setup(m => m.LogDatabase(It.IsAny<string>()))
+                .Returns(true)
+                .Callback((string param) =>
+                {
+                    if (tempText != null)
+                    {
+                        tempText += param;
+                    }
+                    else
+                    {
+                        tempText = string.Empty;
+                    }
+                });
+
+            var result = loggerGeneralMock.Object.LogDatabase("Quevedo");
+
+            Assert.That(tempText, Is.EqualTo("PavelQuevedo"));
         }
     }
 }
