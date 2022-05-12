@@ -180,5 +180,29 @@ namespace MyLibNUnit.Test
 
             Assert.That(tempText, Is.EqualTo("PavelQuevedo"));
         }
+
+        [Test]
+        public void BankAccountLogger_VerifyExample()
+        {
+            var loggerGeneralMock = new Mock<ILoggerGeneral>();
+
+            BankAccount bankAccount = new(loggerGeneralMock.Object);
+            bankAccount.Deposit(100);
+
+            Assert.That(bankAccount.GetBalance(), Is.EqualTo(100));
+
+            //Verify how many times the mock is calling the method Message
+            loggerGeneralMock.Verify(u => u.Message(It.IsAny<string>()), Times.Exactly(3));
+
+            //Verify if the text "Test 1" was sent to the method Message at least once
+            loggerGeneralMock.Verify(u => u.Message("Test 1"), Times.AtLeastOnce);
+
+            //Verify if a property was set to 100 correctly once
+            loggerGeneralMock.VerifySet(u => u.Priority = 100, Times.Once);
+
+            //Verify if the getter of property "Priority" was used during the execution
+            loggerGeneralMock.VerifyGet(u => u.Priority, Times.Once);
+
+        }
     }
 }

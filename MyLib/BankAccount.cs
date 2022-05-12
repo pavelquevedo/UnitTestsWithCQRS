@@ -21,6 +21,11 @@ namespace MyLib
         public bool Deposit(int amount)
         {
             _loggerGeneral.Message("You're making a deposit of: " + amount);
+            _loggerGeneral.Message("Test 1");
+            _loggerGeneral.Message("Test 2");
+            _loggerGeneral.Priority = 100;
+            
+            var priority = _loggerGeneral.Priority;
             Balance += amount;
             return true;
         }
