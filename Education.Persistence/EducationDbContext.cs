@@ -5,6 +5,7 @@ namespace Education.Persistence
 {
     public class EducationDbContext : DbContext
     {
+        public EducationDbContext() { }
         public EducationDbContext(DbContextOptions<EducationDbContext> options) : base(options)
         {
 
@@ -12,6 +13,13 @@ namespace Education.Persistence
 
         public DbSet<Course> Courses { get; set; }
 
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            if (!optionsBuilder.IsConfigured)
+            {
+                optionsBuilder.UseSqlServer("Server=localhost\\SQLEXPRESS;database=EducationCQRS;Trusted_Connection=True;MultipleActiveResultSets=True;");
+            }
+        }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Course>()
