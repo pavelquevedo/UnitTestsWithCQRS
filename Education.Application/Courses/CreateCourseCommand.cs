@@ -10,51 +10,55 @@ using System.Threading.Tasks;
 
 namespace Education.Application.Courses
 {
-    public class CreateCourseCommandRequest : IRequest
+    public class CreateCourseCommand
     {
-        public string Name { get; set; }
-        public string Description { get; set; }
-        public DateTime PublishDate { get; set; }
-        public decimal Price { get; set; }
-    }
-
-    public class CreateCourseCommandRequestValidation : AbstractValidator<CreateCourseCommandRequest>
-    {
-        public CreateCourseCommandRequestValidation()
+        public class CreateCourseCommandRequest : IRequest
         {
-            RuleFor(x => x.Description);
-            RuleFor(x => x.Name);
+            public string Name { get; set; }
+            public string Description { get; set; }
+            public DateTime PublishDate { get; set; }
+            public decimal Price { get; set; }
         }
-    }
 
-    public class CreateCourseCommandHandler : IRequestHandler<CreateCourseCommandRequest>
-    {
-        private readonly EducationDbContext _context;
-
-        public CreateCourseCommandHandler(EducationDbContext context)
+        public class CreateCourseCommandRequestValidation : AbstractValidator<CreateCourseCommandRequest>
         {
-            _context = context;
-        }
-        public async Task<Unit> Handle(CreateCourseCommandRequest request, CancellationToken cancellationToken)
-        {
-            var course = new Course
+            public CreateCourseCommandRequestValidation()
             {
-                CourseId = Guid.NewGuid(),
-                Name = request.Name,
-                Description = request.Description,
-                CreationDate = DateTime.UtcNow,
-                PublishDate = request.PublishDate,
-                Price = request.Price
-            };
-
-            _context.Add(course);
-            
-            if (await _context.SaveChangesAsync() > 0)
-            {
-                return Unit.Value;
+                RuleFor(x => x.Description);
+                RuleFor(x => x.Name);
             }
+        }
 
-            throw new Exception("Course cannot be inserted");
+        public class CreateCourseCommandHandler : IRequestHandler<CreateCourseCommandRequest>
+        {
+            private readonly EducationDbContext _context;
+
+            public CreateCourseCommandHandler(EducationDbContext context)
+            {
+                _context = context;
+            }
+            public async Task<Unit> Handle(CreateCourseCommandRequest request, CancellationToken cancellationToken)
+            {
+                var course = new Course
+                {
+                    CourseId = Guid.NewGuid(),
+                    Name = request.Name,
+                    Description = request.Description,
+                    CreationDate = DateTime.UtcNow,
+                    PublishDate = request.PublishDate,
+                    Price = request.Price
+                };
+
+                _context.Add(course);
+
+                if (await _context.SaveChangesAsync() > 0)
+                {
+                    return Unit.Value;
+                }
+
+                throw new Exception("Course cannot be inserted");
+            }
         }
     }
+
 }
