@@ -17,8 +17,4 @@
     <ProjectReference Include="..\Education.Persistence\Education.Persistence.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Course\" />
-  </ItemGroup>
-
 </Project>
